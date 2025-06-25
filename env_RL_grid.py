@@ -4,7 +4,7 @@ import random
 alpha = 0.1
 gamma = 0.9
 epsilon = 0.2
-episodes = 200
+episodes = 300
 
 GRID_ROWS = 4
 GRID_COLS = 4
@@ -38,6 +38,7 @@ def get_reward(state):
     return 10 if state == goal else -1
 
 for episode in range(episodes):
+    # always start from the start state
     state = start
 
     while not is_terminal(state):
@@ -66,21 +67,21 @@ for episode in range(episodes):
         state = next_state
   
 
-def display_policy(Q, goal):
-    policy_grid = [['' for _ in range(GRID_COLS)] for _ in range(GRID_ROWS)]
+def display(Q, goal):
+    grid = [['' for _ in range(GRID_COLS)] for _ in range(GRID_ROWS)]
 
     for y in range(GRID_ROWS):
         for x in range(GRID_COLS):
             best_action = np.argmax(Q[y, x])
             if (x, y) == goal:
-                policy_grid[y][x] = 'O'
+                grid[y][x] = 'O'
             elif (x,y) == start:
-                policy_grid[y][x] = '*' + ACTIONS[best_action]
+                grid[y][x] = '*' + ACTIONS[best_action]
             else:
             
-                policy_grid[y][x] = ACTIONS[best_action]
+                grid[y][x] = ACTIONS[best_action]
 
-    for row in reversed(policy_grid):
+    for row in reversed(grid):
         print(row)
 
-display_policy(Q, goal)
+display(Q, goal)
